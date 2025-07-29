@@ -1,9 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Optional
 
 class ContactForm(BaseModel):
-    name: str
-    email: str
+    first: str
+    last: str
+    email: EmailStr
     message: str
 
 class User(BaseModel):

@@ -1,24 +1,27 @@
+# app/main.py
+import os, uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import contact, users
+from app.api.contact import router as contact_router
+from app.api.users   import router as users_router
 
-app = FastAPI()
+app = FastAPI(title="Freshly Backend API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(contact.router, prefix="/contact", tags=["contact"])
-app.include_router(users.router, prefix="/users", tags=["users"])
+# now your contact endpoint lives at /api/contact
+app.include_router(contact_router, prefix="/api/contact", tags=["contact"])
+app.include_router(users_router,   prefix="/api/users",   tags=["users"])
 
 @app.get("/")
-def read_root():
+async def read_root():
     return {"message": "Welcome to the Freshly Backend API"}
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8000)), reload=True)

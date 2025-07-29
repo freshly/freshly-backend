@@ -1,17 +1,24 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, EmailStr
+from app.services.email_service import send_contact_email
 
 router = APIRouter()
 
-class ContactForm(BaseModel):
-    name: str
-    email: str
-    message: str
-    phone: Optional[str] = None
+class ContactIn(BaseModel):
+    first_name: str
+    last_name:  str
+    email:      EmailStr
+    message:    str
 
-@router.post("/contact")
-async def submit_contact_form(contact: ContactForm):
-    # Here you would typically handle the contact form submission,
-    # such as sending an email or storing it in a database.
-    return {"message": "Contact form submitted successfully", "data": contact}
+@router.post("/")
+async def submit_contact(form: ContactIn):
+    try:
+        send_contact_email(
+            form.first_name,
+            form.last_name,
+            form.email,
+            form.message,
+        )
+    except Exception as e:
+        raise HTTPException(500, detail="Failed to send email")
+    return {"status": "ok"}
