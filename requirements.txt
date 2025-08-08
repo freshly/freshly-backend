@@ -2,4 +2,5 @@ fastapi
 uvicorn
 firebase-admin
 pydantic
+pydantic-settings
 fastapi-mail

@@ -1,4 +1,4 @@
-from pydantic import BaseSettings, AnyHttpUrl
+from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     FIREBASE_CREDENTIALS: str

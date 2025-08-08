@@ -2,7 +2,7 @@ import smtplib
 from email.message import EmailMessage
 from app.config import settings
 
-def send_contact_email(first_name: str, last_name: str, sender_email: str, message: str):
+def send_contact_email(first: str, last: str, sender_email: str, message: str):
     msg = EmailMessage()
     msg["Subject"] = "📨 New Contact Form Submission"
     msg["From"] = settings.EMAIL_FROM
@@ -10,8 +10,8 @@ def send_contact_email(first_name: str, last_name: str, sender_email: str, messa
     msg.set_content(f"""
 You’ve got a new message from your website contact form:
 
-First name: {first_name}
-Last name: {last_name}
+First name: {first}
+Last name: {last}
 Email: {sender_email}
 
 Message:

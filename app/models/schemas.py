@@ -7,8 +7,5 @@ class ContactForm(BaseModel):
     email: EmailStr
     message: str
 
-class User(BaseModel):
-    email: str
-    password: str
-    name: Optional[str] = None
-    phone: Optional[str] = None
+class Waitlist(BaseModel):
+    email: EmailStr
